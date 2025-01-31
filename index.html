@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Gradient Screensaver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        #time {
+            font-size: 5rem;
+            letter-spacing: 5px;
+            font-weight: bold;
+        }
+
+        /* Gradient background */
+        .gradient-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: background 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div id="time">00:00:00</div>
+<div class="gradient-background"></div>
+
+<script>
+    // Function to update time and background gradient
+    function updateScreensaver() {
+        const timeElement = document.getElementById('time');
+        const gradientBackground = document.querySelector('.gradient-background');
+
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        // Format time to HH:MM:SS
+        const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timeElement.textContent = timeString;
+
+        // Create a gradient based on the current time
+        let gradientColor1, gradientColor2;
+
+        if (hours >= 6 && hours < 12) {
+            gradientColor1 = 'rgba(255, 223, 0, 0.7)'; // Morning yellow
+            gradientColor2 = 'rgba(255, 87, 34, 0.7)'; // Morning orange
+        } else if (hours >= 12 && hours < 18) {
+            gradientColor1 = 'rgba(33, 150, 243, 0.7)'; // Afternoon blue
+            gradientColor2 = 'rgba(255, 193, 7, 0.7)'; // Afternoon yellow
+        } else {
+            gradientColor1 = 'rgba(25, 118, 210, 0.7)'; // Evening blue
+            gradientColor2 = 'rgba(0, 0, 0, 0.7)'; // Evening dark
+        }
+
+        // Set the background gradient
+        gradientBackground.style.background = `linear-gradient(to right, ${gradientColor1}, ${gradientColor2})`;
+    }
+
+    // Update every second
+    setInterval(updateScreensaver, 1000);
+
+    // Initial update on load
+    updateScreensaver();
+</script>
+
+</body>
+</html>
